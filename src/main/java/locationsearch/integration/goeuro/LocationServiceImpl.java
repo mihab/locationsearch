@@ -51,7 +51,9 @@ public class LocationServiceImpl implements LocationService {
             }
             br.close();
             Response response = new Gson().fromJson(sb.toString(), Response.class);
-            locations.addAll(response.getResults());
+            if (response.getResults() != null) {
+                locations.addAll(response.getResults());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
