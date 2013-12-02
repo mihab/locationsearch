@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
 
 /**
  * Http service to execute http request.
@@ -32,7 +33,7 @@ public class HttpService {
             int bytesRead = 0;
             StringBuilder sb = new StringBuilder();
             while ((bytesRead = br.read(arr)) != -1) {
-                sb.append(arr);
+                sb.append(Arrays.copyOfRange(arr, 0, bytesRead));
             }
             return sb.toString();
         } catch (IOException e) {

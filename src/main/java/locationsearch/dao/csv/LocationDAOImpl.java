@@ -22,6 +22,8 @@ public class LocationDAOImpl implements LocationDAO {
      * 
      * @param fileName
      *            File name to save to.
+     * @param stringFileWriter
+     *            String file writer to use.
      */
     public LocationDAOImpl(String fileName, StringFileWriter stringFileWriter) {
         this.fileName = fileName;
