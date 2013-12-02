@@ -52,7 +52,7 @@ public class LocationDAOImplTest extends EasyMockSupport {
         geo_position.setLatitude(1.1);
         geo_position.setLongitude(2.2);
         location.setGeo_position(geo_position);
-        sfw.write("Position,123,Potsdam\\, USA,Location,1.1,2.2" + System.lineSeparator(), "file.csv");
+        sfw.write("Position,123,\"Potsdam, USA\",Location,1.1,2.2" + System.lineSeparator(), "file.csv");
         replayAll();
         locationDAO.saveLocations(Arrays.asList(location));
         verifyAll();

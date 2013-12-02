@@ -40,7 +40,7 @@ public class LocationDAOImpl implements LocationDAO {
             line += ",";
             line += location.get_id();
             line += ",";
-            line += location.getName().replace(",", "\\,");
+            line += (location.getName().contains(",")) ? "\"" + location.getName() + "\"" : location.getName();
             line += ",";
             line += location.getType();
             line += ",";
