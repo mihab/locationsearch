@@ -1,10 +1,6 @@
 package locationsearch.integration.goeuro;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,38 +20,34 @@ public class LocationServiceImpl implements LocationService {
 
     private String apiUrl;
 
+    private HttpService httpService;
+
     /**
      * Ctor that takes API url.
      * 
      * @param apiUrl
      *            GoEuro API url.
+     * @param httpService
+     *            Http service to use.
      */
-    public LocationServiceImpl(String apiUrl) {
+    public LocationServiceImpl(String apiUrl, HttpService httpService) {
         this.apiUrl = apiUrl;
+        this.httpService = httpService;
     }
 
     @Override
     public List<Location> findLocations(String query) {
         List<Location> locations = new ArrayList<Location>();
+        String queryUrl = null;
         try {
-            String queryUrl = apiUrl + URLEncoder.encode(query, "UTF-8");
-            URL url = new URL(queryUrl);
-            URLConnection urlConnection;
-            urlConnection = url.openConnection();
-            BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-            char[] arr = new char[1024];
-            int bytesRead = 0;
-            StringBuilder sb = new StringBuilder();
-            while ((bytesRead = br.read(arr)) != -1) {
-                sb.append(arr);
-            }
-            br.close();
-            Response response = new Gson().fromJson(sb.toString(), Response.class);
-            if (response.getResults() != null) {
-                locations.addAll(response.getResults());
-            }
-        } catch (IOException e) {
+            queryUrl = apiUrl + URLEncoder.encode(query, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
+        }
+        String responseString = httpService.doGet(queryUrl);
+        Response response = new Gson().fromJson(responseString, Response.class);
+        if (response.getResults() != null) {
+            locations.addAll(response.getResults());
         }
         return locations;
     }

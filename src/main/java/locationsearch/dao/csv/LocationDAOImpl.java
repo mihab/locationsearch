@@ -31,8 +31,9 @@ public class LocationDAOImpl implements LocationDAO {
 
     @Override
     public void saveLocations(List<Location> locations) {
+        BufferedWriter bw = null;
         try {
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8"));
+            bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8"));
             for (Location location : locations) {
                 String line = "";
                 line += location.get_type();
@@ -48,9 +49,16 @@ public class LocationDAOImpl implements LocationDAO {
                 line += location.getGeo_position().getLongitude();
                 bw.write(line + System.lineSeparator());
             }
-            bw.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            if (bw != null) {
+                try {
+                    bw.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
