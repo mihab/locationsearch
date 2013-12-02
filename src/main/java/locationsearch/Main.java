@@ -2,6 +2,7 @@ package locationsearch;
 
 import locationsearch.dao.LocationDAO;
 import locationsearch.dao.csv.LocationDAOImpl;
+import locationsearch.dao.csv.StringFileWriter;
 import locationsearch.integration.LocationService;
 import locationsearch.integration.goeuro.HttpService;
 import locationsearch.integration.goeuro.LocationServiceImpl;
@@ -29,7 +30,7 @@ public class Main {
         }
         String query = args[0];
         LocationService locationService = new LocationServiceImpl(GO_EURO_API_URL, new HttpService());
-        LocationDAO locationDAO = new LocationDAOImpl("results.csv");
+        LocationDAO locationDAO = new LocationDAOImpl("results.csv", new StringFileWriter());
         LocationSearch locationSearch = new LocationSearch(locationService, locationDAO);
         locationSearch.execute(query);
     }
