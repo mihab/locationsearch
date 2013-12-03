@@ -1,7 +1,8 @@
-package locationsearch;
+package locationsearch.integration.goeuro;
 
 import java.util.List;
 
+import locationsearch.Location;
 import locationsearch.integration.LocationService;
 import locationsearch.integration.goeuro.HttpService;
 import locationsearch.integration.goeuro.LocationServiceImpl;
